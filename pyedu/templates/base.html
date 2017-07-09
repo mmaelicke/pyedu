@@ -6,6 +6,13 @@
     (url_for('stud.lecture_view_all'), 'lectures', 'Lectures'),
 ] -%}
 
+{% if current_user.is_authenticated %}
+    {% if current_user.has_level(g.Level.TEACHER) %}
+        {% do navigation_pages.append( ('#', 'report', 'Reports') ) %}
+    {% else %}
+        {% do navigation_pages.append( (url_for('stud.report', student_id=current_user.id), 'report', 'Reports') ) %}
+    {% endif %}
+{% endif %}
 
 {% set active_page = active_page|default('index') -%}
 
