@@ -93,6 +93,8 @@ class User(db.Model):
     @password.setter
     def password(self, new_password):
         self.password_hash = generate_password_hash(new_password)
+        db.session.add(self)
+        db.session.commit()
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
