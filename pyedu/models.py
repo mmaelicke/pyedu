@@ -111,6 +111,9 @@ class User(db.Model):
         else:
             return False
 
+    def is_enrolled(self, lecture):
+        return lecture.is_enrolled(self)
+
     @staticmethod
     def insert_default_users(superuser_mail, superuser_password):
         """
@@ -312,6 +315,7 @@ class Task(db.Model):
     body = db.Column(db.Text(), nullable=False)
     solution = db.Column(db.Text(), nullable=False)
     required = db.Column(db.Boolean(), nullable=False, default=True)
+    seq = db.Column(db.Integer(), nullable=True, unique=True)
     created = db.Column(db.DateTime(), default=datetime.utcnow)
     edited = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -352,11 +356,11 @@ class Task(db.Model):
 
     @property
     def next(self):
-        return Task.query.filter_by(lesson_id=self.lesson_id).filter(Task.id > self.id).order_by(Task.id).first()
+        return Task.query.filter_by(lesson_id=self.lesson_id).filter(Task.seq > self.seq).order_by(Task.seq).first()
 
     @property
     def previous(self):
-        return Task.query.filter_by(lesson_id=self.lesson_id).filter(Task.id < self.id).order_by(Task.id.desc()).first()
+        return Task.query.filter_by(lesson_id=self.lesson_id).filter(Task.seq < self.seq).order_by(Task.seq.desc()).first()
 
 
     def __repr__(self):

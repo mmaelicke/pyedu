@@ -16,6 +16,7 @@ class EditTaskForm(FlaskForm):
     lesson_id = HiddenField('lesson_id', default=None)
     name = StringField('Task Name', validators=[DataRequired()])
     description = TextAreaField('Task Description', validators=[DataRequired()])
+    seq = StringField('Sequence', validators=[DataRequired()])
     body = TextAreaField('Task Code', validators=[DataRequired()], default=_default_body)
     solution = TextAreaField('Solution Code', validators=[DataRequired()], default=_default_solution)
     required = BooleanField('Task Required', default=True)

@@ -7,3 +7,4 @@ flask-login
 flask-migrate
 pycrypto
 dill>=0.2
+pandas

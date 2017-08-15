@@ -2,15 +2,15 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% set navigation_pages = [
-    (url_for('main.index'), 'index', 'Home'),
-    (url_for('stud.lecture_view_all'), 'lectures', 'Lectures'),
+    (url_for('main.index'), 'index', '<span class="glyphicon glyphicon-home"></span> Home'),
+    (url_for('stud.lecture_view_all'), 'lectures', '<span class="glyphicon glyphicon-education"></span> Lectures'),
 ] -%}
 
 {% if current_user.is_authenticated %}
     {% if current_user.has_level(g.Level.TEACHER) %}
-        {% do navigation_pages.append( ('#', 'report', 'Reports') ) %}
+        {% do navigation_pages.append( ('#', 'report', '<span class="glyphicon glyphicon-tasks"></span> Reports') ) %}
     {% else %}
-        {% do navigation_pages.append( (url_for('stud.report', student_id=current_user.id), 'report', 'Reports') ) %}
+        {% do navigation_pages.append( (url_for('stud.report', student_id=current_user.id), 'report', '<span class="glyphicon glyphicon-tasks"></span> Reports') ) %}
     {% endif %}
 {% endif %}
 
@@ -33,7 +33,7 @@
     <div class="navbar-collapse collapse" id="mainnav">
         <ul class="nav navbar-nav">
             {% for href, page, caption in navigation_pages %}
-                <li {% if active_page==page %}class="active"{% endif %}><a href="{{ href }}">{{ caption }}</a></li>
+                <li {% if active_page==page %}class="active"{% endif %}><a href="{{ href }}">{{ caption|safe }}</a></li>
             {% endfor %}
         </ul>
 
@@ -44,17 +44,17 @@
                     logged in as: {{ current_user.username }}:&nbsp;{% if session.get('login_at') %}{{ moment(session.get('login_at')).fromNow(refresh=True) }}{% endif %} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('main.settings') }}">Settings</a></li>
+                    <li><a href="{{ url_for('main.settings') }}"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+                    <li><a href="{{ url_for('main.logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </li>
         </ul>
 
         {% else %}
-        <p class="navbar-text navbar-right" style="margin-right:25px;">
-                <a href="{{ url_for('main.login') }}">Login</a>
-        </p>
+        <ul class="nav navbar-nav navbar-right" style="margin-right:25px;">
+                <li><a href="{{ url_for('main.login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
         {% endif %}
 
     </div>
@@ -85,5 +85,6 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="{{ url_for('static', filename="jquery-3.2.1.min.js") }}"></script>
 {{ moment.include_moment() }}
 {% endblock %}
