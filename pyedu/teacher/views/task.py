@@ -36,6 +36,7 @@ def task_edit(task_id):
         task.body = form.body.data
         task.solution = form.solution.data
         task.required = form.required.data
+        task.seq = form.seq.data
 
         db.session.add(task)
         db.session.commit()
@@ -55,6 +56,7 @@ def task_edit(task_id):
             form.body.data = task.body
             form.solution.data = task.solution
             form.required.data = task.required
+            form.seq.data = task.seq
         else:
             form.lesson_id.data = lesson_id
         return render_template('teacher/edit_task.html', form=form)

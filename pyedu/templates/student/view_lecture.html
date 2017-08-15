@@ -16,8 +16,12 @@
             {% if current_user.has_level(g.Level.TEACHER) %}
             <a class="btn btn-success btn-sm" href="{{ url_for('teach.lecture_edit', lecture_id=lecture.id) }}"><span class="glyphicon glyphicon-edit"></span> edit</a>
             <a class="btn btn-success btn-sm" href="{{ url_for('teach.lesson_edit', lecture_id=lecture.id) }}"><span class="glyphicon glyphicon-plus"></span> add Lesson</a>
-                &nbsp;|&nbsp;
             {% endif %}
+            {% if not current_user.is_enrolled(lecture) %}
+            <a class="btn btn-success btn-sm" href="{{ url_for('stud.enroll', student_id=current_user.id, lecture_id=lecture.id) }}"><span class="glyphicon glyphicon-ok-circle"></span> enroll</a>
+            {% endif %}
+                &nbsp;|&nbsp;
+            <span class="label label-success"><span class="badge">{{ lecture.enrollments }}</span> enrollments</span>
             <span class="label label-info">created: {{ moment(lecture.created).fromNow() }}</span>&nbsp;
             <span class="label label-info">last edited: {{ moment(lecture.edited).fromNow() }}</span>
         </p>
