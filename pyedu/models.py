@@ -306,6 +306,9 @@ class Task(db.Model):
 
     """
     __tablename__ = 'tasks'
+    __table_args__ = (
+        db.UniqueConstraint('lesson_id', 'seq', name='unique_lesson_seq'),
+    )
 
     # define columns
     id = db.Column(db.Integer(), primary_key=True)
@@ -315,7 +318,7 @@ class Task(db.Model):
     body = db.Column(db.Text(), nullable=False)
     solution = db.Column(db.Text(), nullable=False)
     required = db.Column(db.Boolean(), nullable=False, default=True)
-    seq = db.Column(db.Integer(), nullable=True, unique=True)
+    seq = db.Column(db.Integer(), nullable=False)
     created = db.Column(db.DateTime(), default=datetime.utcnow)
     edited = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
 

@@ -3,7 +3,7 @@
 """
 from flask import render_template
 from pyedu.student import stud
-from pyedu.models import Lesson
+from pyedu.models import Lesson, Task
 
 
 @stud.route('/lessons/view', defaults={'lecture_id':None})
@@ -18,5 +18,8 @@ def lesson_view_all(lecture_id):
 
 @stud.route('/lesson/view/<int:lesson_id>')
 def lesson_view(lesson_id):
+    # load the lesson and all tasks
     lesson = Lesson.query.get_or_404(lesson_id)
-    return render_template('student/view_lesson.html', lesson=lesson, tasks=lesson.tasks)
+    tasks = Task.query.filter_by(lesson_id=lesson.id).order_by(Task.seq.asc()).all()
+
+    return render_template('student/view_lesson.html', lesson=lesson, tasks=tasks)
