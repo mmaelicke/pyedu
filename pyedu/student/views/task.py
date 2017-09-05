@@ -15,7 +15,7 @@ def task_view_all(lesson_id):
     if lesson_id is None:
         tasks = Task.query.all()
     else:
-        tasks = Task.query.filter_by(lesson_id=lesson_id).all()
+        tasks = Task.query.filter_by(lesson_id=lesson_id).order_by(Task.seq).all()
     return render_template('student/tasks.html', tasks=tasks)
 
 

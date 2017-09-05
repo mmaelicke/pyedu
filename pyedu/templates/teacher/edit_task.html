@@ -25,7 +25,6 @@
 
 {% block page %}
 <h1 class="page-header">{% if form.id.data %}Edit {{ form.name.data }}{% else %}Add Task{% endif %} </h1>
-<!--{{ wtf.quick_form(form) }}-->
 {% endblock %}
 
 
@@ -69,6 +68,7 @@
 <div class="row">
     <div class="text-center">
     {{ form.submit(class='btn btn-success btn-lg') }}
+    <a class="btn btn-danger btn-lg" href="{{ url_for('stud.lesson_view', lesson_id=lesson_id) }}" style="margin-left: 20px;">abort</a>
     </div>
 
 </div>

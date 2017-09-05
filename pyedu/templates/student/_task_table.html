@@ -1,13 +1,13 @@
 <table class="table table-striped">
     <thead class="thead thead-inverse">
-        <tr><th>ID</th><th>Task Name</th><th>Required</th><th>Is solved</th><th>Actions</th></tr>
+        <tr><th>#</th><th>Task Name</th><th>Required</th><th>Is solved</th><th>Actions</th></tr>
     </thead>
     {% if not tasks %}
         <tr class="table-warning"><td colspan="5" class="text-center"><strong>No tasks found</strong></td></tr>
     {% else %}
     {% for task in tasks %}
         <tr>
-        <td>{{ task.id }}</td>
+        <td>{{ task.seq }}</td>
         <td>{{ task.name }}</td>
         <td><span class="glyphicon glyphicon-{% if task.required %}ok{% else %}remove{% endif %}"></span></td>
         {% if current_user.has_role('student') %}

@@ -59,4 +59,9 @@ def task_edit(task_id):
             form.seq.data = task.seq
         else:
             form.lesson_id.data = lesson_id
-        return render_template('teacher/edit_task.html', form=form)
+
+        # if still no lesson_id exists, task should have been created ??
+        if lesson_id is None:
+            lesson_id = task.lesson_id
+
+        return render_template('teacher/edit_task.html', form=form, lesson_id=lesson_id)
